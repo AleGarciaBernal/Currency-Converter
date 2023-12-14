@@ -8,7 +8,7 @@ import com.example.mycurrencyconverter.databinding.ActivityMainBinding
 import com.google.android.material.button.MaterialButton
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Scriptable
-
+//
 class MainActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var resultTv: TextView
     private lateinit var solutionTv: TextView
