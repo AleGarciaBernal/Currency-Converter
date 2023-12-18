@@ -22,6 +22,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private var queue: RequestQueue? = null
     private val tiposDeCambio = mutableMapOf<String, Double>()
     private var monedaDestinoActual: String = "USD"
+    private var tipoCambioSource: Double = 1.0
+    private var tipoCambioTarget: Double = 1.0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,12 +55,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         val selectedItem = parent?.getItemAtPosition(position).toString()
 
         if (parent?.id == R.id.spinner_target_currency) {
-            // Se seleccionó un elemento en el segundo Spinner
+            // Se seleccionó un elemento en el segundo Spinner (moneda de destino)
             monedaDestinoActual = selectedItem
             val tipoCambio = tiposDeCambio[selectedItem]
             targetTV.text = tipoCambio?.toString() ?: ""
-        }
 
+            // Actualizar el tipo de cambio para la moneda de destino
+            tipoCambioTarget = tipoCambio ?: 1.0
+        } else if (parent?.id == R.id.spinner_source_currency) {
+            // Se seleccionó un elemento en el primer Spinner (moneda de origen)
+            monedaDestinoActual = "USD"  // Restaurar el destino a USD al cambiar la moneda de origen
+            val tipoCambio = tiposDeCambio[selectedItem]
+
+            // Actualizar el tipo de cambio para la moneda de origen (por ejemplo, USD)
+            tipoCambioSource = tipoCambio ?: 1.0
+
+        }
     }
 
 
@@ -197,7 +209,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
                     // Actualizar los TextView según la moneda de destino actual
                     sourceTv.text = finalResult
                     val tipoCambio = tiposDeCambio[monedaDestinoActual]
-                    targetTV.text = (finalResult.toDouble() * tipoCambio!!).toString()
+                    targetTV.text = ((finalResult.toDouble() / tipoCambioSource!!)*tipoCambioTarget).toString()
                 }
 
                 return
