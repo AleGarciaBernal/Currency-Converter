@@ -21,6 +21,13 @@
             android:layout_weight="1"
             android:prompt="@string/select_source_currency" />
 
+        <TextView
+            android:id="@+id/sourceTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
+
     </LinearLayout>
 
     <!-- Sección de moneda de destino -->
@@ -39,6 +46,13 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:prompt="@string/select_target_currency" />
+
+        <TextView
+            android:id="@+id/targetTV"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="TextView" />
 
     </LinearLayout>
 
