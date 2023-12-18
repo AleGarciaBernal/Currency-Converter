@@ -26,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="1.0" />
 
     </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="TextView" />
+            android:text="1.0" />
 
     </LinearLayout>
 
@@ -72,13 +72,13 @@
 
     <TextView
         android:id="@+id/result_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="398dp"
+        android:layout_height="69dp"
         android:layout_above="@id/buttons_layout"
         android:layout_marginStart="10dp"
         android:layout_marginTop="1dp"
         android:layout_marginEnd="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="5dp"
         android:text="0"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
@@ -348,6 +348,26 @@
                 android:textSize="25dp"
                 app:cornerRadius="36dp" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonhome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Home" />
+
+            <Button
+                android:id="@+id/buttonmanual"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="MANUAL" />
         </LinearLayout>
 
 
