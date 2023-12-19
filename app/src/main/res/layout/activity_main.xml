@@ -67,6 +67,7 @@
         android:layout_marginBottom="12dp"
         android:textAlignment="textEnd"
         android:textColor="@color/black"
+        android:text="0"
         android:textSize="25dp" />
 
 
