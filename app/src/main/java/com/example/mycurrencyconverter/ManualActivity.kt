@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -14,12 +15,20 @@ import com.google.android.material.button.MaterialButton
 import org.json.JSONException
 import org.mozilla.javascript.Context
 import org.mozilla.javascript.Scriptable
+import android.widget.TextView;
+import android.widget.Button
+
+import android.widget.Toast;
+import kotlin.math.log
+
 //
-class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
+class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
     private lateinit var resultTv: TextView
     private lateinit var solutionTv: TextView
     private lateinit var sourceTv:TextView
     private lateinit var targetTV:TextView
+    private lateinit var editRate:EditText
+    private lateinit var buttonSave:Button
     private var queue: RequestQueue? = null
     private val tiposDeCambio = mutableMapOf<String, Double>()
     private var monedaDestinoActual: String = "USD"
@@ -29,11 +38,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_manual)
         resultTv = findViewById(R.id.result_tv)
         solutionTv = findViewById(R.id.solution_tv)
         sourceTv=findViewById(R.id.sourceTv)
         targetTV=findViewById(R.id.targetTV)
+        editRate=findViewById(R.id.editRate)
+        buttonSave=findViewById(R.id.buttonSave)
+
         val buttonIds = arrayOf(
             //R.id.button_c,
             R.id.button_open_bracket, R.id.button_close_bracket,
@@ -46,24 +58,24 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
             findViewById<MaterialButton>(id).setOnClickListener(this)
         }
 
-        val homeButton = findViewById<Button>(R.id.buttonhome)
         val manualButton = findViewById<Button>(R.id.buttonmanual)
-        homeButton.setOnClickListener {
-            // Mostrar un Toast cuando se presiona el botón Home
-            Toast.makeText(this, "You are already on Home", Toast.LENGTH_SHORT).show()
-        }
+        val homeButton = findViewById<Button>(R.id.buttonhome)
 
         manualButton.setOnClickListener {
-            // Ir a la actividad ManualActivity cuando se presiona el botón Manual
-            val intent = Intent(this, ManualActivity::class.java)
-            startActivity(intent)
+            // Mostrar un Toast cuando se presiona el botón Manual en la actividad ManualActivity
+            Toast.makeText(this, "You are already on Manual", Toast.LENGTH_SHORT).show()
         }
 
-
+        homeButton.setOnClickListener {
+            // Navegar de nuevo a la MainActivity cuando se presiona el botón Home en la actividad ManualActivity
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
 
         //val spinner1 = findViewById<Spinner>(R.id.spinner_source_currency)
         //spinner1.adapter = arrayAdapter1
         //spinner1.onItemSelectedListener = this
+        buttonSave.setOnClickListener(this)
         obtenerDatosRates()
 
     }
@@ -88,6 +100,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
         }
     }
+
+    fun editarTargetTv(view: View){
+        var nuevoRate=editRate.text.toString()
+        targetTV.text = nuevoRate
+    }
+
 
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -119,8 +137,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
                     }
 
                     // Llenar el Spinner con la lista de nombres de monedas
-                    llenarSpinner(listaMonedas)
-                    llenarSpinner2(listaMonedas)
+                    //llenarSpinner(listaMonedas)
+                    //llenarSpinner2(listaMonedas)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -202,7 +220,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
 
 
-    override fun onClick(view: View) {
+    /*override fun onClick(view: View) {
         val button = view as MaterialButton
         val buttonText = button.text.toString()
         var dataToCalculate = solutionTv.text.toString()
@@ -241,6 +259,54 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         if (finalResult != "Err") {
             resultTv.text = finalResult
 
+        }
+    }*/
+    override fun onClick(view: View) {
+        when (view.id) {
+            R.id.buttonSave -> {
+                editarTargetTv(view)
+            }
+
+            else -> {
+                // Lógica para otros clics en botones
+                val button = view as MaterialButton
+                val buttonText = button.text.toString()
+                var dataToCalculate = solutionTv.text.toString()
+
+                when (buttonText) {
+                    "AC" -> {
+                        solutionTv.text = ""
+                        resultTv.text = "0"
+                        return
+                    }
+                    "=" -> {
+                        // Realizar operaciones y obtener el resultado
+                        dataToCalculate = dataToCalculate.replace("×", "*").replace("÷", "/")
+                        val finalResult = getResult(dataToCalculate)
+
+                        if (finalResult != "Err") {
+                            resultTv.text = finalResult
+
+                            // Actualizar los TextView según la moneda de destino actual
+                            sourceTv.text = finalResult
+                            val tipoCambio = tiposDeCambio[monedaDestinoActual]
+                            targetTV.text = ((finalResult.toDouble() / tipoCambioSource!!) * tipoCambioTarget).toString()
+                        }
+
+                        return
+                    }
+                    "C" -> dataToCalculate = dataToCalculate.dropLast(1)
+                    else -> dataToCalculate += buttonText
+                }
+
+                solutionTv.text = dataToCalculate
+
+                val finalResult = getResult(dataToCalculate)
+
+                if (finalResult != "Err") {
+                    resultTv.text = finalResult
+                }
+            }
         }
     }
 
