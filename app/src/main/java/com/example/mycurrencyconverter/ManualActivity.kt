@@ -21,7 +21,6 @@ import android.widget.Button
 import android.widget.Toast;
 import kotlin.math.log
 
-//
 class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
     private lateinit var resultTv: TextView
     private lateinit var solutionTv: TextView
@@ -101,11 +100,31 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
         }
     }
 
-    fun editarTargetTv(view: View){
-        var nuevoRate=editRate.text.toString()
-        targetTV.text = nuevoRate
+    fun editarTargetTv(view: View) {
+        val nuevoRate = editRate.text.toString()
+
+        try {
+            // Intenta convertir la entrada a Double
+            val rateValue = nuevoRate.toDouble()
+
+            // Verifica si el valor es un número válido
+            if (!rateValue.isNaN() && !rateValue.isInfinite()) {
+                // Actualiza el texto en targetTV solo si es un número válido
+                targetTV.text = rateValue.toString()
+            } else {
+                // Muestra un Toast si la entrada no es un número válido
+                showToast("Invalid number entered.")
+            }
+        } catch (e: NumberFormatException) {
+            // Captura la excepción si la conversión a Double falla
+            // Muestra un Toast informando que la entrada no es un número válido
+            showToast("Invalid number entered.")
+        }
     }
 
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 
 
     override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -137,7 +156,7 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
                     }
 
                     // Llenar el Spinner con la lista de nombres de monedas
-                    //llenarSpinner(listaMonedas)
+                    llenarSpinner(listaMonedas)
                     //llenarSpinner2(listaMonedas)
 
                 } catch (e: JSONException) {
@@ -219,48 +238,6 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
     }
 
 
-
-    /*override fun onClick(view: View) {
-        val button = view as MaterialButton
-        val buttonText = button.text.toString()
-        var dataToCalculate = solutionTv.text.toString()
-
-        when (buttonText) {
-            "AC" -> {
-                solutionTv.text = ""
-                resultTv.text = "0"
-                return
-
-            }
-            "=" -> {
-                // Realizar operaciones y obtener el resultado
-                dataToCalculate = dataToCalculate.replace("×", "*").replace("÷", "/")
-                val finalResult = getResult(dataToCalculate)
-
-                if (finalResult != "Err") {
-                    resultTv.text = finalResult
-
-                    // Actualizar los TextView según la moneda de destino actual
-                    sourceTv.text = finalResult
-                    val tipoCambio = tiposDeCambio[monedaDestinoActual]
-                    targetTV.text = ((finalResult.toDouble() / tipoCambioSource!!)*tipoCambioTarget).toString()
-                }
-
-                return
-            }
-            "C" -> dataToCalculate = dataToCalculate.dropLast(1)
-            else -> dataToCalculate += buttonText
-        }
-
-        solutionTv.text = dataToCalculate
-
-        val finalResult = getResult(dataToCalculate)
-
-        if (finalResult != "Err") {
-            resultTv.text = finalResult
-
-        }
-    }*/
     override fun onClick(view: View) {
         when (view.id) {
             R.id.buttonSave -> {
@@ -285,12 +262,8 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
                         val finalResult = getResult(dataToCalculate)
 
                         if (finalResult != "Err") {
-                            resultTv.text = finalResult
-
                             // Actualizar los TextView según la moneda de destino actual
-                            sourceTv.text = finalResult
-                            val tipoCambio = tiposDeCambio[monedaDestinoActual]
-                            targetTV.text = ((finalResult.toDouble() / tipoCambioSource!!) * tipoCambioTarget).toString()
+                            resultTv.text = (finalResult.toDouble() * targetTV.text.toString().toDouble()).toString()
                         }
 
                         return
@@ -304,11 +277,13 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
                 val finalResult = getResult(dataToCalculate)
 
                 if (finalResult != "Err") {
-                    resultTv.text = finalResult
+                    // Actualizar los TextView según la moneda de destino actual
+                    resultTv.text = (finalResult.toDouble() * targetTV.text.toString().toDouble()).toString()
                 }
             }
         }
     }
+
 
     private fun getResult(data: String): String {
         return try {
