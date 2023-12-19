@@ -25,6 +25,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private var monedaDestinoActual: String = "USD"
     private var tipoCambioSource: Double = 1.0
     private var tipoCambioTarget: Double = 1.0
+    private var numeroIngresado = false
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -231,7 +233,15 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
                 return
             }
             "C" -> dataToCalculate = dataToCalculate.dropLast(1)
-            else -> dataToCalculate += buttonText
+            else -> {
+                // Si es la primera vez que se ingresa un número, borra el "0"
+                if (!numeroIngresado && buttonText.matches(Regex("\\d"))) {
+                    dataToCalculate = buttonText
+                    numeroIngresado = true
+                } else {
+                    dataToCalculate += buttonText
+                }
+            }
         }
 
         solutionTv.text = dataToCalculate
