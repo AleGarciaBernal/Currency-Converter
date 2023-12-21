@@ -6,10 +6,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.*
+import androidx.lifecycle.lifecycleScope
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.example.mycurrencyconverter.services.currencyLogs.CurrencyLogService
 import com.google.android.material.button.MaterialButton
 import org.json.JSONException
 import org.mozilla.javascript.Context
@@ -20,6 +22,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private lateinit var solutionTv: TextView
     private lateinit var sourceTv:TextView
     private lateinit var targetTV:TextView
+    private lateinit var logService:CurrencyLogService
     private var queue: RequestQueue? = null
     private val tiposDeCambio = mutableMapOf<String, Double>()
     private var monedaDestinoActual: String = "USD"
@@ -32,6 +35,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        logService= CurrencyLogService()
         resultTv = findViewById(R.id.result_tv)
         solutionTv = findViewById(R.id.solution_tv)
         sourceTv=findViewById(R.id.sourceTv)
@@ -67,6 +71,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         //spinner1.adapter = arrayAdapter1
         //spinner1.onItemSelectedListener = this
         obtenerDatosRates()
+        logService.logData("USD","EUR",1.00,0.87)
+        logService.getLogs(lifecycleScope)
 
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
