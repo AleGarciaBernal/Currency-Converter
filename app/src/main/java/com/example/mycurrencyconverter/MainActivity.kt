@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private var tipoCambioTarget: Double = 1.0
     private var numeroIngresado = false
 
+    private var monedaOrigenTemporal: String = "USD"
+    private var monedaDestinoTemporal: String = "USD"
+    private var cantidadTemporal: Double = 0.0
+    private var resultadoTemporal: Double = 0.0
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,6 +59,14 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
         val homeButton = findViewById<Button>(R.id.buttonhome)
         val manualButton = findViewById<Button>(R.id.buttonmanual)
+        val historyButton = findViewById<Button>(R.id.buttonhistory)
+
+        historyButton.setOnClickListener {
+            // Iniciar la actividad HistoryActivity al hacer clic en el botón "History"
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
         homeButton.setOnClickListener {
             // Mostrar un Toast cuando se presiona el botón Home
             Toast.makeText(this, "You are already on Home", Toast.LENGTH_SHORT).show()
@@ -71,27 +84,22 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         //spinner1.adapter = arrayAdapter1
         //spinner1.onItemSelectedListener = this
         obtenerDatosRates()
-        logService.logData("USD","EUR",1.00,0.87)
-        logService.getLogs(lifecycleScope)
+        //logService.logData("USD","EUR",1.00,0.87)
+        //logService.getLogs(lifecycleScope)
 
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val selectedItem = parent?.getItemAtPosition(position).toString()
-
         if (parent?.id == R.id.spinner_target_currency) {
-            // Se seleccionó un elemento en el segundo Spinner (moneda de destino)
             monedaDestinoActual = selectedItem
+            monedaDestinoTemporal = selectedItem
             val tipoCambio = tiposDeCambio[selectedItem]
             targetTV.text = tipoCambio?.toString() ?: ""
-
-            // Actualizar el tipo de cambio para la moneda de destino
             tipoCambioTarget = tipoCambio ?: 1.0
         } else if (parent?.id == R.id.spinner_source_currency) {
-            // Se seleccionó un elemento en el primer Spinner (moneda de origen)
+            monedaOrigenTemporal = selectedItem
             monedaDestinoActual = "USD"  // Restaurar el destino a USD al cambiar la moneda de origen
             val tipoCambio = tiposDeCambio[selectedItem]
-
-            // Actualizar el tipo de cambio para la moneda de origen (por ejemplo, USD)
             tipoCambioSource = tipoCambio ?: 1.0
 
         }
@@ -186,7 +194,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         }
         queue!!.add(request)
     }
-    fun fetchData() {
+    /*fun fetchData() {
         val url = "https://jsonplaceholder.typicode.com/todos/1"
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
             { response ->
@@ -206,7 +214,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
         val requestQueue = Volley.newRequestQueue(resultTv.context)
         requestQueue.add(jsonObjectRequest)
-    }
+    }*/
 
 
 
@@ -229,11 +237,17 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
 
                 if (finalResult != "Err") {
                     resultTv.text = finalResult
-
-                    // Actualizar los TextView según la moneda de destino actual
                     sourceTv.text = finalResult
                     val tipoCambio = tiposDeCambio[monedaDestinoActual]
-                    targetTV.text = ((finalResult.toDouble() / tipoCambioSource!!)*tipoCambioTarget).toString()
+                    val resultadoConversion= ((finalResult.toDouble() / tipoCambioSource!!)*tipoCambioTarget)
+                    targetTV.text = resultadoConversion.toString()
+                    resultadoTemporal = resultadoConversion
+                    logService.logData(monedaOrigenTemporal, monedaDestinoTemporal, cantidadTemporal, resultadoTemporal)
+                    val toastMessage =
+                            "C: $cantidadTemporal\n" +
+                            "R: $resultadoTemporal"
+                    Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show()
+
                 }
 
                 return
@@ -242,10 +256,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
             else -> {
                 // Si es la primera vez que se ingresa un número, borra el "0"
                 if (!numeroIngresado && buttonText.matches(Regex("\\d"))) {
+                    cantidadTemporal = buttonText.toDouble()
                     dataToCalculate = buttonText
                     numeroIngresado = true
                 } else {
                     dataToCalculate += buttonText
+                    cantidadTemporal = dataToCalculate.toDoubleOrNull() ?: 0.0
                 }
             }
         }
