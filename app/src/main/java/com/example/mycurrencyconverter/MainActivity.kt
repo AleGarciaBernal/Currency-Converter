@@ -109,6 +109,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     override fun onNothingSelected(parent: AdapterView<*>?) {
         // Handle case where nothing is selected
     }
+
     private fun obtenerDatosRates() {
         val url = "https://v6.exchangerate-api.com/v6/e4fe3f82f3082b7484c4f5df/latest/USD"
         val request = JsonObjectRequest(
@@ -121,14 +122,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
                     val conversionRates = response.getJSONObject("conversion_rates")
 
                     // Obtener las claves (nombres de las monedas) del objeto conversion_rates
-                    val monedas = conversionRates.keys()
+                    val monedas = listOf("USD", "CLP", "ARS", "BOB", "PEN")
 
                     // Crear una lista para almacenar los nombres de las monedas
                     val listaMonedas = mutableListOf<String>()
 
                     // Recorrer las claves y agregarlas a la lista
-                    while (monedas.hasNext()) {
-                        val moneda = monedas.next()
+                    monedas.forEach { moneda ->
                         listaMonedas.add(moneda)
                         // Agregar el tipo de cambio al mapa
                         tiposDeCambio[moneda] = conversionRates.getDouble(moneda)
@@ -151,6 +151,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         val requestQueue = Volley.newRequestQueue(this)
         requestQueue.add(request)
     }
+
     private fun llenarSpinner(listaMonedas: List<String>) {
         // Crear un adaptador para el Spinner
         val arrayAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, listaMonedas)
