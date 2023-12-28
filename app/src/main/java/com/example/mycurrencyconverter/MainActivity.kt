@@ -78,13 +78,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         }
 
 
-
-        //val spinner1 = findViewById<Spinner>(R.id.spinner_source_currency)
-        //spinner1.adapter = arrayAdapter1
-        //spinner1.onItemSelectedListener = this
         obtenerDatosRates()
-        //logService.logData("USD","EUR",1.00,0.87)
-        //logService.getLogs(lifecycleScope)
+
 
     }
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
@@ -100,7 +95,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
             monedaDestinoActual = "USD"  // Restaurar el destino a USD al cambiar la moneda de origen
             val tipoCambio = tiposDeCambio[selectedItem]
             tipoCambioSource = tipoCambio ?: 1.0
-
         }
     }
 
@@ -194,28 +188,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
         }
         queue!!.add(request)
     }
-    /*fun fetchData() {
-        val url = "https://jsonplaceholder.typicode.com/todos/1"
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-            { response ->
-                try {
-                    val userId = response.getInt("userId")
-                    val id = response.getInt("id")
-                    val title = response.getString("title")
-                    val completed = response.getBoolean("completed")
-                    resultTv.text = "$userId\n$id\n$title\n$completed"
-                } catch (e: JSONException) {
-                    e.printStackTrace()
-                }
-            },
-            { error ->
-                resultTv.text = "Error"
-            })
-
-        val requestQueue = Volley.newRequestQueue(resultTv.context)
-        requestQueue.add(jsonObjectRequest)
-    }*/
-
 
 
     override fun onClick(view: View) {
@@ -246,7 +218,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
                     val toastMessage =
                             "C: $cantidadTemporal\n" +
                             "R: $resultadoTemporal"
-                    Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show()
+                    //Toast.makeText(this, toastMessage, Toast.LENGTH_LONG).show()
 
                 }
 

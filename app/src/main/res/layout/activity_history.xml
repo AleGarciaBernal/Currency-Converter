@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D6D3DC"
     tools:context=".HistoryActivity">
+
 
     <LinearLayout
         android:id="@+id/buttonLayout"
         android:layout_width="match_parent"
         android:layout_height="44dp"
+        android:backgroundTint="#F3EBEB"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -58,53 +60,141 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/t3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_condensed_regular"
+        android:textColor="#121111"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/t4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/t2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <TextView
         android:id="@+id/t1"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textColor="#000000"
+        android:layout_marginStart="30dp"
+        android:fontFamily="@font/ubuntu_condensed_regular"
+        android:textColor="#121111"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/t2"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <TextView
+        android:id="@+id/textView27"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="RESULT"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/t4"
+        app:layout_constraintStart_toStartOf="@+id/t4" />
+
+    <TextView
+        android:id="@+id/textView24"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="FROM"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/t1"
+        app:layout_constraintEnd_toStartOf="@+id/t2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/t1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.944" />
+
+    <TextView
+        android:id="@+id/textView25"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="@font/ubuntu_bold"
+        android:text="TO"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/t2"
+        app:layout_constraintStart_toStartOf="@id/t2" />
 
     <TextView
         android:id="@+id/t2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textColor="#000000"
+        android:fontFamily="@font/ubuntu_condensed_regular"
+        android:textColor="#121111"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/t3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/t1"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
 
     <TextView
-        android:id="@+id/t3"
-        android:layout_width="0dp"
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
         android:fontFamily="@font/ubuntu_bold"
+        android:text="QUANTITY"
         android:textColor="#000000"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/t4"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/t2"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintBottom_toTopOf="@+id/t3"
+        app:layout_constraintStart_toEndOf="@+id/t2" />
 
     <TextView
         android:id="@+id/t4"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ubuntu_bold"
-        android:textColor="#000000"
+        android:layout_marginEnd="25dp"
+        android:fontFamily="@font/ubuntu_condensed_regular"
+        android:textColor="#121111"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/t3"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.277" />
+
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/archivo_black"
+        android:text="Recent Conversions"
+        android:textColor="#000000"
+        app:layout_constraintBottom_toTopOf="@+id/buttonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.109" />
+
+    <TextView
+        android:id="@+id/textView29"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:background="#80000000"
+        android:fontFamily="@font/ubuntu_medium"
+        android:text="This screen reflects the last 10 conversions made with the application. The list is ordered so that the first row represents the most recent conversion."
+        android:textColor="#130101"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/t3"
+        app:layout_constraintVertical_bias="0.349" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Button
 
 import android.widget.Toast;
+import com.example.mycurrencyconverter.services.currencyLogs.CurrencyLogService
 import kotlin.math.log
 
 class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnItemSelectedListener {
@@ -35,7 +36,12 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
     private var tipoCambioTarget: Double = 1.0
     private var numeroIngresado = false
 
+    private var monedaOrigenTemporal: String = "USD"
+    private var monedaDestinoTemporal: String = "USD"
+    private var cantidadTemporal: Double = 0.0
+    private var resultadoTemporal: Double = 0.0
 
+    private lateinit var logService: CurrencyLogService
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +52,7 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
         targetTV=findViewById(R.id.targetTV)
         editRate=findViewById(R.id.editRate)
         buttonSave=findViewById(R.id.buttonSave)
+        logService= CurrencyLogService()
 
         val buttonIds = arrayOf(
             //R.id.button_c,
@@ -91,20 +98,17 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
     override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
         val selectedItem = parent?.getItemAtPosition(position).toString()
 
-        if (parent?.id == R.id.spinner_target_currency) {
+        if (parent?.id == R.id.target_spinner) {
             // Se seleccionó un elemento en el segundo Spinner (moneda de destino)
             monedaDestinoActual = selectedItem
+            monedaDestinoTemporal=selectedItem
             val tipoCambio = tiposDeCambio[selectedItem]
-            targetTV.text = tipoCambio?.toString() ?: ""
 
-            // Actualizar el tipo de cambio para la moneda de destino
             tipoCambioTarget = tipoCambio ?: 1.0
         } else if (parent?.id == R.id.spinner_source_currency) {
-            // Se seleccionó un elemento en el primer Spinner (moneda de origen)
-            monedaDestinoActual = "USD"  // Restaurar el destino a USD al cambiar la moneda de origen
-            val tipoCambio = tiposDeCambio[selectedItem]
+            monedaOrigenTemporal=selectedItem
 
-            // Actualizar el tipo de cambio para la moneda de origen (por ejemplo, USD)
+            val tipoCambio = tiposDeCambio[selectedItem]
             tipoCambioSource = tipoCambio ?: 1.0
 
         }
@@ -167,7 +171,7 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
 
                     // Llenar el Spinner con la lista de nombres de monedas
                     llenarSpinner(listaMonedas)
-                    //llenarSpinner2(listaMonedas)
+                    llenarSpinner2(listaMonedas)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -205,10 +209,9 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
         // Obtener el Spinner y establecer el adaptador
-        val spinner2 = findViewById<Spinner>(R.id.spinner_target_currency)
+        val spinner2 = findViewById<Spinner>(R.id.target_spinner)
         spinner2.adapter = arrayAdapter
 
-        // Establecer el escuchador de eventos para el Spinner
         spinner2.onItemSelectedListener = this
     }
     private fun obtenerDatosVolley() {
@@ -267,7 +270,9 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
                         return
                     }
                     "=" -> {
-                        // Realizar operaciones y obtener el resultado
+                        cantidadTemporal=solutionTv.text.toString().toDouble()
+                        resultadoTemporal=resultTv.text.toString().toDouble()
+                        logService.logData(monedaOrigenTemporal,monedaDestinoTemporal,cantidadTemporal,resultadoTemporal)
                         dataToCalculate = dataToCalculate.replace("×", "*").replace("÷", "/")
                         val finalResult = getResult(dataToCalculate)
 
@@ -275,6 +280,7 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
                             // Actualizar los TextView según la moneda de destino actual
                             resultTv.text = (finalResult.toDouble() * targetTV.text.toString().toDouble()).toString()
                         }
+                        Toast.makeText(this, "Saved successfully", Toast.LENGTH_SHORT).show()
 
                         return
                     }

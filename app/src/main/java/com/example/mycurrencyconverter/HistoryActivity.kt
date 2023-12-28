@@ -90,7 +90,7 @@ class HistoryActivity : AppCompatActivity() {
             },
             { error ->
                 // Manejar errores si es necesario
-                Log.e("MainActivity", "Error al obtener los datos de la API", error)
+                Log.e("HistoryActivity", "Error al obtener los datos de la API", error)
             })
 
         // Agregar la solicitud a la cola de solicitudes

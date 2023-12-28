@@ -44,6 +44,13 @@
         android:padding="16dp">
 
 
+        <Spinner
+            android:id="@+id/target_spinner"
+            android:layout_width="72dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:prompt="@string/select_source_currency" />
+
         <EditText
             android:id="@+id/editRate"
             android:layout_width="0dp"

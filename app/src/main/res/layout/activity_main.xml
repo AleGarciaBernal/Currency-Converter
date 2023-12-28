@@ -26,6 +26,7 @@
         android:text="1.0"
         android:fontFamily="@font/ubuntu_medium"
         android:textColor="#000000"
+        android:layout_marginStart="15dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,6 +51,7 @@
         android:text="1.0"
         android:textColor="#000000"
         android:textSize="20sp"
+        android:layout_marginStart="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/spinner_target_currency" />
