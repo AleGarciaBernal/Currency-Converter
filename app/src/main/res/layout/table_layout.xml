@@ -1,0 +1,37 @@
+<!-- res/layout/table_layout.xml -->
+
+<TableLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:stretchColumns="*"
+    android:shrinkColumns="*"
+    android:padding="16dp">
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+
+        <TextView
+            android:text="From"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:text="To"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:text="Quantity"
+            android:gravity="center"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:text="Result"
+            android:gravity="center"
+            android:textStyle="bold"/>
+    </TableRow>
+
+</TableLayout>

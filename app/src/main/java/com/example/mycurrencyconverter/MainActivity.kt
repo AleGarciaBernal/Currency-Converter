@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, AdapterView.OnIt
     private var resultadoTemporal: Double = 0.0
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

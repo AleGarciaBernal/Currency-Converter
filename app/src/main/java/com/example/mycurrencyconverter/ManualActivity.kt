@@ -61,6 +61,14 @@ class ManualActivity : AppCompatActivity(), View.OnClickListener, AdapterView.On
 
         val manualButton = findViewById<Button>(R.id.buttonmanual)
         val homeButton = findViewById<Button>(R.id.buttonhome)
+        val historyButton = findViewById<Button>(R.id.buttonhistory)
+
+        historyButton.setOnClickListener {
+            // Iniciar la actividad HistoryActivity al hacer clic en el botón "History"
+            val intent = Intent(this, HistoryActivity::class.java)
+            startActivity(intent)
+        }
+
 
         manualButton.setOnClickListener {
             // Mostrar un Toast cuando se presiona el botón Manual en la actividad ManualActivity
